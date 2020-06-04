@@ -1,4 +1,4 @@
-# react-easy-auth
+# react-easy-auth(In progress..)
 
 > Easily add authentication with firebase to your React application.
 
