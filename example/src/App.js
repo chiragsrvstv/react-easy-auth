@@ -1,10 +1,17 @@
 import React from 'react'
 
-import { ExampleComponent } from 'react-easy-auth'
+import { GoogleLogin } from 'react-easy-auth'
 import 'react-easy-auth/dist/index.css'
 
+import {firebaseConfig} from './firebaseConfig.js'
+
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return (
+    <GoogleLogin
+      text='Create React Library Example Boo 😄'
+      firebaseConfig={firebaseConfig}
+    />
+  )
 }
 
 export default App
