@@ -6,7 +6,6 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
 export class GoogleAuth extends React.Component {
-  // initializing firebase with firebase-configuration which is received as props object
   state = { userData: '' }
 
   // firebase authentication listener for change in account states
@@ -24,6 +23,7 @@ export class GoogleAuth extends React.Component {
             // const user = result.user
             console.log(result.user)
             this.setState({ userData: result.user })
+            this.setState({ initializing: false })
           })
           .catch((error) => {
             console.error(error)
@@ -52,29 +52,31 @@ export class GoogleAuth extends React.Component {
       })
   }
 
-  onGoogleSignIn = () => {
+  onSignIn = () => {
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithRedirect(provider)
   }
 
+  display = () => (
+    <div>
+      {this.state.userData.displayName}
+      <div>
+        <button onClick={this.onSignOut}> Sign Out </button>
+      </div>
+    </div>
+  )
+
   render() {
     if (this.state.userData) {
-      console.log(this.state.userData)
-      return (
-        <div>
-          {this.state.userData.displayName}
-          <div>
-            <button onClick={this.onSignOut}> Sign Out </button>
-          </div>
-        </div>
-      )
+      // console.log(this.state.userData)
+      return this.display()
     } else {
       return (
         <div>
           <div className={styles.test}>
             Example Component: {this.props.text}
           </div>
-          <button onClick={this.onGoogleSignIn}> Sign In with Google </button>
+          <button onClick={this.onSignIn}> Sign In with Google </button>
           <button onClick={this.onSignOut}> Sign Out </button>
         </div>
       )
