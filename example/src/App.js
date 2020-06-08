@@ -1,16 +1,19 @@
 import React from 'react'
 
-import { GoogleLogin } from 'react-easy-auth'
+import { GoogleLogin, TwitterLogin } from 'react-easy-auth'
 import 'react-easy-auth/dist/index.css'
 
-import {firebaseConfig} from './firebaseConfig.js'
+import { firebaseConfig } from './firebaseConfig.js'
 
 const App = () => {
   return (
-    <GoogleLogin
-      text='Create React Library Example Boo 😄'
-      firebaseConfig={firebaseConfig}
-    />
+    <div>
+      <h1> Super Power App </h1>
+      <TwitterLogin
+        text='Create React Library Example Boo 😄'
+        firebaseConfig={firebaseConfig}
+      />
+    </div>
   )
 }
 
