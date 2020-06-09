@@ -1,9 +1,6 @@
 import React from 'react'
 import styles from '../styles.module.css'
 
-// firebase dependencies
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
 
 export class GoogleAuth extends React.Component {
   state = { userData: '' }

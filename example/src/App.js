@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-import { GoogleLogin, TwitterLogin, Logout } from 'react-easy-auth'
+import SocialAuth from 'react-easy-auth'
 import 'react-easy-auth/dist/index.css'
 
 import { firebaseConfig } from './firebaseConfig.js'
@@ -8,7 +8,7 @@ import { firebaseConfig } from './firebaseConfig.js'
 const App = () => {
   const [user, setUser] = useState(null)
 
-  const loginHandler = (passedUser) => {
+  const fetchUserData = (passedUser) => {
     setUser(passedUser)
   }
 
@@ -20,11 +20,10 @@ const App = () => {
     <div>
       <h1> Super Power App </h1>
       <div>
-        TwitterLogin
-        <TwitterLogin
-          text='Create React Library Example Boo 😄'
+        Social Login
+        <SocialAuth
           firebaseConfig={firebaseConfig}
-          loginHandler={loginHandler}
+          fetchUserData={fetchUserData}
         />
       </div>
     </div>

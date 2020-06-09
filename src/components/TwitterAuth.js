@@ -1,20 +1,16 @@
 import React from 'react'
-// firebase dependencies
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
 
 class TwitterAuth extends React.Component {
   state = { userData: '' }
 
   onSignIn = () => {
-    const provider = new firebase.auth.TwitterAuthProvider()
+    const provider = new this.props.auth.TwitterAuthProvider()
     try {
-      firebase.auth().signInWithRedirect(provider)
+      this.props.auth.signInWithRedirect(provider)
     } catch (error) {
       console.log(error)
     }
-    firebase
-      .auth()
+    this.props.auth
       .getRedirectResult()
       .then((result) => {
         const user = result.user
@@ -27,8 +23,7 @@ class TwitterAuth extends React.Component {
   }
 
   onSignOut = () => {
-    firebase
-      .auth()
+    this.props.auth
       .signOut()
       .then(() => {
         this.setState({ userData: null })
@@ -38,18 +33,18 @@ class TwitterAuth extends React.Component {
       })
   }
 
-  authListener = (enteredUser) => {
-    if (enteredUser) {
-      this.setState({ userData: enteredUser }) // reloading the component for testing
-      this.props.loginHandler(enteredUser)
-      console.log(enteredUser)
-    }
-  }
+  // authListener = (enteredUser) => {
+  //   if (enteredUser) {
+  //     this.setState({ userData: enteredUser }) // reloading the component for testing
+  //     this.props.loginHandler(enteredUser)
+  //     console.log(enteredUser)
+  //   }
+  // }
 
-  componentDidMount() {
-    firebase.initializeApp(this.props.firebaseConfig)
-    firebase.auth().onAuthStateChanged(this.authListener)
-  }
+  // componentDidMount() {
+  //   firebase.initializeApp(this.props.firebaseConfig)
+  //   firebase.auth().onAuthStateChanged(this.authListener)
+  // }
 
   render() {
     if (this.state.userData) {
