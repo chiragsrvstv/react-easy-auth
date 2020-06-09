@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
 class TwitterAuth extends React.Component {
-  state = { userData: '', loading: false }
+  state = { userData: '' }
 
   onSignIn = () => {
     const provider = new firebase.auth.TwitterAuthProvider()
@@ -39,38 +39,29 @@ class TwitterAuth extends React.Component {
   }
 
   authListener = (enteredUser) => {
-    this.setState({ userData: enteredUser })
-    console.log(enteredUser)
-    if (this.state.loading) {
-      this.setState({ loading: false })
+    if (enteredUser) {
+      this.setState({ userData: enteredUser }) // reloading the component for testing
+      this.props.loginHandler(enteredUser)
+      console.log(enteredUser)
     }
   }
 
   componentDidMount() {
     firebase.initializeApp(this.props.firebaseConfig)
-    const subscriber = firebase.auth().onAuthStateChanged(this.authListener)
-    return subscriber
+    firebase.auth().onAuthStateChanged(this.authListener)
   }
 
   render() {
     if (this.state.userData) {
-      return (
-        <div>
-          {' '}
-          <button onClick={this.onSignOut}>Logout</button>{' '}
-          {this.state.userData.displayName}{' '}
-        </div>
-      )
+      return <button onClick={this.onSignOut}>Sign Out</button>
     }
     return (
       <div>
-        Twitter Login{' '}
         <div>
-          <button onClick={this.onSignIn}>Login with twitter</button>
+          <button onClick={this.onSignIn}>Sign In with twitter</button>
         </div>
       </div>
     )
   }
 }
-
 export default TwitterAuth
