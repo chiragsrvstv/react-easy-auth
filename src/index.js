@@ -1,7 +1,6 @@
 import React from 'react'
-
-import { firebaseConfig } from './firebaseConfig'
-import { GoogleAuth } from './components/GoogleAuth'
+import { firebaseConfig} from './firebaseConfig'
+import GoogleAuth from './components/GoogleAuth'
 import TwitterAuth from './components/TwitterAuth'
 
 class SocialAuth extends React.Component {

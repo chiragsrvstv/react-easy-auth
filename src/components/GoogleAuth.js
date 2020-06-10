@@ -1,8 +1,9 @@
 import React from 'react'
 import styles from '../styles.module.css'
 
+import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
-export class GoogleAuth extends React.Component {
+class GoogleAuth extends React.Component {
   state = { userData: '' }
 
   // firebase authentication listener for change in account states
@@ -14,14 +15,9 @@ export class GoogleAuth extends React.Component {
     }
   }
 
-  componentDidMount() {
-    firebase.initializeApp(this.props.firebaseConfig)
-    firebase.auth().onAuthStateChanged(this.authListener)
-  }
-
   // method to handle sign-out functionality
   onSignOut = () => {
-    firebase
+    firebaseConfig
       .auth()
       .signOut()
       .then(() => {
@@ -37,8 +33,8 @@ export class GoogleAuth extends React.Component {
   // method to handle sign-in functionality
   onSignIn = () => {
     try {
-      const provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithRedirect(provider)
+      const provider = new firebaseConfigAuth.GoogleAuthProvider()
+      firebaseConfig.auth().signInWithRedirect(provider)
     } catch (error) {
       console.log(error)
     }
@@ -55,3 +51,5 @@ export class GoogleAuth extends React.Component {
     )
   }
 }
+
+export default GoogleAuth
