@@ -3,15 +3,15 @@ import React from 'react'
 // importing firebase configuration and dependencies
 import { firebaseConfig } from './firebaseConfig'
 
-import GoogleAuth from './components/GoogleAuth'
-import TwitterAuth from './components/TwitterAuth'
+import Auth from './components/auth'
 
 class SocialAuth extends React.Component {
   state = { userData: '' }
 
   /* 
   a method that sets the userData state when a user signs-in and 
-  it also sends that data back to the parent component with the help of fetchUserData prop 
+  it also sends that data back to the parent component with the help 
+  of fetchUserData prop 
   */
   authListener = (enteredUser) => {
     if (enteredUser) {
@@ -36,8 +36,9 @@ class SocialAuth extends React.Component {
   }
 
   /* 
-    activating the firebase authentication state observer, it listens for changes in the authentication state
-    and executes the function(or observer) passed to it everytime the authentication state changes 
+    activating the firebase authentication state observer, it listens 
+    for changes in the authentication state and executes the function(or observer)
+    passed to it everytime the authentication state changes 
   */
   componentDidMount() {
     firebaseConfig.auth().onAuthStateChanged(this.authListener)
@@ -49,8 +50,8 @@ class SocialAuth extends React.Component {
     }
     return (
       <div>
-        <TwitterAuth />
-        <GoogleAuth />
+        <Auth authProvider='Twitter' />
+        <Auth authProvider='Google' />
       </div>
     )
   }
