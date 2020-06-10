@@ -1,16 +1,20 @@
 import React from 'react'
+// import * as firebase from 'firebase/app'
+
+import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
 class TwitterAuth extends React.Component {
   state = { userData: '' }
 
   onSignIn = () => {
-    const provider = new this.props.auth.TwitterAuthProvider()
+    const provider = new firebaseConfigAuth.TwitterAuthProvider()
     try {
-      this.props.auth.signInWithRedirect(provider)
+      firebaseConfig.auth().signInWithRedirect(provider)
     } catch (error) {
       console.log(error)
     }
-    this.props.auth
+    firebaseConfig
+      .auth()
       .getRedirectResult()
       .then((result) => {
         const user = result.user
@@ -23,7 +27,8 @@ class TwitterAuth extends React.Component {
   }
 
   onSignOut = () => {
-    this.props.auth
+    firebaseConfig
+      .auth()
       .signOut()
       .then(() => {
         this.setState({ userData: null })

@@ -1,9 +1,6 @@
 import React from 'react'
 
-// firebase dependencies
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
-
+import { firebaseConfig } from './firebaseConfig'
 import { GoogleAuth } from './components/GoogleAuth'
 import TwitterAuth from './components/TwitterAuth'
 
@@ -25,26 +22,15 @@ class SocialAuth extends React.Component {
   //   }
   // }
 
-  firebaseConfig = {
-    apiKey: process.env.REACT_APP_APIKEY,
-    authDomain: process.env.REACT_APP_AUTHDOMAIN,
-    databaseURL: process.env.REACT_APP_DATABASEURL,
-    projectId: process.env.REACT_APP_PROJECTID,
-    storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-    appId: process.env.REACT_APP_APPID
-  }
-
   componentDidMount() {
-    firebase.initializeApp(this.firebaseConfig)
-    firebase.auth().onAuthStateChanged(this.authListener)
+    firebaseConfig.auth().onAuthStateChanged(this.authListener)
   }
 
   render() {
     return (
       <div>
         {/* <GoogleAuth loginHandler={this.props.loginHandler} auth={this.auth}/> */}
-        <TwitterAuth auth={firebase.auth} />
+        <TwitterAuth />
       </div>
     )
   }
