@@ -1,11 +1,12 @@
 import React from 'react'
-// import * as firebase from 'firebase/app'
 
+// importing firebase configuration and dependencies
 import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
 class TwitterAuth extends React.Component {
-  state = { userData: '' }
-
+  /* 
+  method to handle sign-in with Twitter functionality
+  */
   onSignIn = () => {
     const provider = new firebaseConfigAuth.TwitterAuthProvider()
     try {
@@ -26,35 +27,7 @@ class TwitterAuth extends React.Component {
       })
   }
 
-  onSignOut = () => {
-    firebaseConfig
-      .auth()
-      .signOut()
-      .then(() => {
-        this.setState({ userData: null })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  // authListener = (enteredUser) => {
-  //   if (enteredUser) {
-  //     this.setState({ userData: enteredUser }) // reloading the component for testing
-  //     this.props.loginHandler(enteredUser)
-  //     console.log(enteredUser)
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   firebase.initializeApp(this.props.firebaseConfig)
-  //   firebase.auth().onAuthStateChanged(this.authListener)
-  // }
-
   render() {
-    if (this.state.userData) {
-      return <button onClick={this.onSignOut}>Sign Out</button>
-    }
     return (
       <div>
         <div>
