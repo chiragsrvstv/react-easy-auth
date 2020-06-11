@@ -50,8 +50,7 @@ class SocialAuth extends React.Component {
     }
     return (
       <div>
-        <Auth authProvider='Twitter' />
-        <Auth authProvider='Google' />
+        <Auth authProvider={this.props.authProvider} />
       </div>
     )
   }

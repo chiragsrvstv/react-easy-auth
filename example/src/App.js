@@ -19,7 +19,7 @@ const App = () => {
       <h1> Super Power App </h1>
       <div>
         Social Login
-        <SocialAuth fetchUserData={fetchUserData} />
+        <SocialAuth authProvider="Github" fetchUserData={fetchUserData} />
       </div>
     </div>
   )
