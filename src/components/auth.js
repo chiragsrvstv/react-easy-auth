@@ -1,11 +1,14 @@
 import React from 'react'
 
+// importing firebase configuration and dependencies
 import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
 const auth = ({ authProvider }) => {
   let provider
+
   /*
-  switch cases to initialize an instance of the provider
+  switch cases to initialize an instance of the provider(Twitter, Google, etc.)
+  object according to the authProvider prop passed from parent(SocialAuth) component
   */
   switch (authProvider) {
     case 'Twitter':
@@ -17,8 +20,14 @@ const auth = ({ authProvider }) => {
     case 'Facebook':
       provider = new firebaseConfigAuth.FacebookAuthProvider()
       break
-    case 'LinkedIn':
-      provider = new firebaseConfigAuth.LinkedInAuthProvider()
+    case 'Github':
+      provider = new firebaseConfigAuth.GithubAuthProvider()
+      break
+    case 'Microsoft':
+      provider = new firebaseConfigAuth.OAuthProvider('microsoft.com')
+      break
+    case 'Apple':
+      provider = new firebaseConfigAuth.OAuthProvider('apple.com')
       break
     default:
       provider = null
@@ -33,6 +42,9 @@ const auth = ({ authProvider }) => {
     } catch (error) {
       console.log(error)
     }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('loader', 'loading')
+    }
     firebaseConfig
       .auth()
       .getRedirectResult()
@@ -45,6 +57,7 @@ const auth = ({ authProvider }) => {
         console.log(error)
       })
   }
+
   return (
     <div>
       <button onClick={onSignIn}>Sign In with {authProvider}</button>

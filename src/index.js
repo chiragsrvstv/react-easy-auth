@@ -4,9 +4,10 @@ import React from 'react'
 import { firebaseConfig } from './firebaseConfig'
 
 import Auth from './components/auth'
+import Spinner from './components/Spinner'
 
 class SocialAuth extends React.Component {
-  state = { userData: '' }
+  state = { userData: '', isLoading: false }
 
   /* 
   a method that sets the userData state when a user signs-in and 
@@ -17,7 +18,10 @@ class SocialAuth extends React.Component {
     if (enteredUser) {
       this.setState({ userData: enteredUser }) // reloading the component for testing
       this.props.fetchUserData(enteredUser)
-      console.log(enteredUser)
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('loader')
+      }
+      this.setState({ isLoading: false })
     }
   }
 
@@ -35,6 +39,20 @@ class SocialAuth extends React.Component {
       })
   }
 
+  renderContent() {
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('loader') === 'loading') {
+        return <Spinner />
+      }
+    }
+    if (this.state.userData) {
+      return <button onClick={this.SignOutHandler}> Sign Out </button>
+    }
+    if (!this.state.userData) {
+      return <Auth authProvider={this.props.authProvider} />
+    }
+  }
+
   /* 
     activating the firebase authentication state observer, it listens 
     for changes in the authentication state and executes the function(or observer)
@@ -45,14 +63,7 @@ class SocialAuth extends React.Component {
   }
 
   render() {
-    if (this.state.userData) {
-      return <button onClick={this.SignOutHandler}> Sign Out </button>
-    }
-    return (
-      <div>
-        <Auth authProvider={this.props.authProvider} />
-      </div>
-    )
+    return <div>{this.renderContent()}</div>
   }
 }
 
