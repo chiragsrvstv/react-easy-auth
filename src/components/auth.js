@@ -3,7 +3,7 @@ import React from 'react'
 // importing firebase configuration and dependencies
 import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
-const auth = ({ authProvider }) => {
+const auth = ({ authProvider, style }) => {
   let provider
 
   /*
@@ -43,6 +43,8 @@ const auth = ({ authProvider }) => {
       console.log(error)
     }
     if (typeof window !== 'undefined') {
+      /* adding a loader variable to localstorage which lets
+      us know if the authentication is still in process */
       localStorage.setItem('loader', 'loading')
     }
     firebaseConfig
@@ -60,7 +62,7 @@ const auth = ({ authProvider }) => {
 
   return (
     <div>
-      <button onClick={onSignIn}>Sign In with {authProvider}</button>
+      <button style={style} onClick={onSignIn}>Sign In with {authProvider}</button>
     </div>
   )
 }

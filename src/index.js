@@ -25,6 +25,15 @@ class SocialAuth extends React.Component {
     }
   }
 
+  /* 
+    activating the firebase authentication state observer, it listens 
+    for changes in the authentication state and executes the function(or observer)
+    passed to it everytime the authentication state changes 
+  */
+  componentDidMount() {
+    firebaseConfig.auth().onAuthStateChanged(this.authListener)
+  }
+
   // a method to sign users out
   SignOutHandler = () => {
     firebaseConfig
@@ -39,27 +48,40 @@ class SocialAuth extends React.Component {
       })
   }
 
+  /* 
+  a method to show content on screen
+  */
   renderContent() {
+    /* 
+    if localstorage doesn't contain loading variable,
+    the Spinner component is rendered     
+    */
     if (typeof window !== 'undefined') {
       if (localStorage.getItem('loader') === 'loading') {
         return <Spinner />
       }
     }
     if (this.state.userData) {
-      return <button onClick={this.SignOutHandler}> Sign Out </button>
+      return (
+        <div>
+          <button style={this.props.style} onClick={this.SignOutHandler}>
+            {' '}
+            Sign Out{' '}
+          </button>
+          <h3> {this.state.userData.displayName} </h3>
+        </div>
+      )
     }
+    /*
+    If there is no user related data in the userData state, the Auth component
+    is rendered that provides the sign-in facility. style and authProvider props
+    coming from the parent component is passed down as props
+    */
     if (!this.state.userData) {
-      return <Auth authProvider={this.props.authProvider} />
+      return (
+        <Auth style={this.props.style} authProvider={this.props.authProvider} />
+      )
     }
-  }
-
-  /* 
-    activating the firebase authentication state observer, it listens 
-    for changes in the authentication state and executes the function(or observer)
-    passed to it everytime the authentication state changes 
-  */
-  componentDidMount() {
-    firebaseConfig.auth().onAuthStateChanged(this.authListener)
   }
 
   render() {

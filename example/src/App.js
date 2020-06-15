@@ -11,7 +11,12 @@ const App = () => {
   }
 
   // if (user) {
-  //   return <div> Hello {user.displayName} ! </div>
+  //   return (
+  //     <div>
+  //       {' '}
+  //       Hello {user.displayName} !
+  //     </div>
+  //   )
   // }
 
   return (
@@ -19,7 +24,11 @@ const App = () => {
       <h1> Super Power App </h1>
       <div>
         Social Login
-        <SocialAuth authProvider="Github" fetchUserData={fetchUserData} />
+        <SocialAuth
+          authProvider='Twitter'
+          style={{ color: 'blue'} }
+          fetchUserData={fetchUserData}
+        />
       </div>
     </div>
   )
