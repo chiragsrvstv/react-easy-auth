@@ -45,24 +45,15 @@ const auth = ({ authProvider, style }) => {
     if (typeof window !== 'undefined') {
       /* adding a loader variable to localstorage which lets
       us know if the authentication is still in process */
-      localStorage.setItem('loader', 'loading')
+      localStorage.setItem('initializer', 'initializing')
     }
-    firebaseConfig
-      .auth()
-      .getRedirectResult()
-      .then((result) => {
-        const user = result.user
-        const token = result.credential.accessToken
-        const secret = result.credential.secret
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   }
 
   return (
     <div>
-      <button style={style} onClick={onSignIn}>Sign In with {authProvider}</button>
+      <button style={style} onClick={onSignIn}>
+        Sign In with {authProvider}
+      </button>
     </div>
   )
 }

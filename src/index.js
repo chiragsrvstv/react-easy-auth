@@ -7,7 +7,7 @@ import Auth from './components/auth'
 import Spinner from './components/Spinner'
 
 class SocialAuth extends React.Component {
-  state = { userData: '', isLoading: false }
+  state = { userData: null }
 
   /* 
   a method that sets the userData state when a user signs-in and 
@@ -18,20 +18,39 @@ class SocialAuth extends React.Component {
     if (enteredUser) {
       this.setState({ userData: enteredUser }) // reloading the component for testing
       this.props.fetchUserData(enteredUser)
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('loader')
-      }
-      this.setState({ isLoading: false })
     }
+  }
+
+  init = () => {
+    firebaseConfig
+      .auth()
+      .getRedirectResult()
+      .then((result) => {
+        const user = result.user
+        const token = result.credential.accessToken
+        const secret = result.credential.secret
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('initializer')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('initializer')
+          this.setState({ userData: null })
+        }
+      })
   }
 
   /* 
     activating the firebase authentication state observer, it listens 
     for changes in the authentication state and executes the function(or observer)
     passed to it everytime the authentication state changes 
+
   */
   componentDidMount() {
     firebaseConfig.auth().onAuthStateChanged(this.authListener)
+    this.init()
   }
 
   // a method to sign users out
@@ -57,7 +76,7 @@ class SocialAuth extends React.Component {
     the Spinner component is rendered     
     */
     if (typeof window !== 'undefined') {
-      if (localStorage.getItem('loader') === 'loading') {
+      if (localStorage.getItem('initializer') === 'initializing') {
         return <Spinner />
       }
     }
