@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import SocialAuth from 'react-easy-auth'
+import { SocialAuth, SocialAuthSignOut } from 'react-easy-auth'
 import 'react-easy-auth/dist/index.css'
 
 const App = () => {
@@ -10,14 +10,18 @@ const App = () => {
     setUser(passedUser)
   }
 
-  // if (user) {
-  //   return (
-  //     <div>
-  //       {' '}
-  //       Hello {user.displayName} !
-  //     </div>
-  //   )
-  // }
+  const onSignOut = () => {
+    setUser(null)
+  }
+
+  if (user) {
+    return (
+      <div>
+        <h3> {user.displayName} </h3>
+        <SocialAuthSignOut onClick={onSignOut} />
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -26,7 +30,17 @@ const App = () => {
         Social Login
         <SocialAuth
           authProvider='Twitter'
-          style={{ color: 'blue'} }
+          style={{ color: 'green', fontSize: '20px', borderRadius: '5px' }}
+          fetchUserData={fetchUserData}
+        />
+        <SocialAuth
+          authProvider='Google'
+          style={{ color: 'red', fontSize: '20px', borderRadius: '5px' }}
+          fetchUserData={fetchUserData}
+        />
+        <SocialAuth
+          authProvider='Facebook'
+          style={{ color: 'blue', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
         />
       </div>

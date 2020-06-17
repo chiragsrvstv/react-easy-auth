@@ -6,7 +6,7 @@ import { firebaseConfig } from './firebaseConfig'
 import Auth from './components/auth'
 import Spinner from './components/Spinner'
 
-class SocialAuth extends React.Component {
+export class SocialAuth extends React.Component {
   state = { userData: null }
 
   /* 
@@ -15,6 +15,7 @@ class SocialAuth extends React.Component {
   of fetchUserData prop 
   */
   authListener = (enteredUser) => {
+    console.log('auuth listener')
     if (enteredUser) {
       this.setState({ userData: enteredUser }) // reloading the component for testing
       this.props.fetchUserData(enteredUser)
@@ -53,20 +54,6 @@ class SocialAuth extends React.Component {
     this.init()
   }
 
-  // a method to sign users out
-  SignOutHandler = () => {
-    firebaseConfig
-      .auth()
-      .signOut()
-      .then(() => {
-        this.setState({ userData: null })
-        console.log('signed out')
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   /* 
   a method to show content on screen
   */
@@ -79,17 +66,6 @@ class SocialAuth extends React.Component {
       if (localStorage.getItem('initializer') === 'initializing') {
         return <Spinner />
       }
-    }
-    if (this.state.userData) {
-      return (
-        <div>
-          <button style={this.props.style} onClick={this.SignOutHandler}>
-            {' '}
-            Sign Out{' '}
-          </button>
-          <h3> {this.state.userData.displayName} </h3>
-        </div>
-      )
     }
     /*
     If there is no user related data in the userData state, the Auth component
@@ -108,4 +84,27 @@ class SocialAuth extends React.Component {
   }
 }
 
-export default SocialAuth
+export class SocialAuthSignOut extends React.Component {
+  // a method to sign users out
+  SignOutHandler = () => {
+    firebaseConfig
+      .auth()
+      .signOut()
+      .then(() => {
+        // this.props.fetchUserData(null)
+        console.log('signed out')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  render() {
+    return (
+      <button style={this.props.style} onClick={this.SignOutHandler}>
+        {' '}
+        Sign Out{' '}
+      </button>
+    )
+  }
+}
