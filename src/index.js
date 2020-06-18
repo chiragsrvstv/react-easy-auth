@@ -7,22 +7,22 @@ import Auth from './components/auth'
 import Spinner from './components/Spinner'
 
 export class SocialAuth extends React.Component {
-  state = { userData: null }
-
   /* 
   a method that sets the userData state when a user signs-in and 
   it also sends that data back to the parent component with the help 
   of fetchUserData prop 
   */
   authListener = (enteredUser) => {
-    console.log('auuth listener')
     if (enteredUser) {
-      this.setState({ userData: enteredUser }) // reloading the component for testing
       this.props.fetchUserData(enteredUser)
     }
   }
 
-  init = () => {
+  /*
+  a method to get Back redirected result if the 
+  user has requested a sign-in process
+  */
+  getSigInResults = () => {
     firebaseConfig
       .auth()
       .getRedirectResult()
@@ -38,7 +38,6 @@ export class SocialAuth extends React.Component {
         console.error(error)
         if (typeof window !== 'undefined') {
           localStorage.removeItem('initializer')
-          this.setState({ userData: null })
         }
       })
   }
@@ -51,7 +50,7 @@ export class SocialAuth extends React.Component {
   */
   componentDidMount() {
     firebaseConfig.auth().onAuthStateChanged(this.authListener)
-    this.init()
+    this.getSigInResults()
   }
 
   /* 
@@ -59,7 +58,7 @@ export class SocialAuth extends React.Component {
   */
   renderContent() {
     /* 
-    if localstorage doesn't contain loading variable,
+    if localstorage doesn't contain initializing variable,
     the Spinner component is rendered     
     */
     if (typeof window !== 'undefined') {
@@ -68,15 +67,13 @@ export class SocialAuth extends React.Component {
       }
     }
     /*
-    If there is no user related data in the userData state, the Auth component
-    is rendered that provides the sign-in facility. style and authProvider props
-    coming from the parent component is passed down as props
+    The Auth component is rendered that provides the sign-in facility. 
+    style and authProvider props coming from the parent component is
+    passed down as props
     */
-    if (!this.state.userData) {
-      return (
-        <Auth style={this.props.style} authProvider={this.props.authProvider} />
-      )
-    }
+    return (
+      <Auth style={this.props.style} authProvider={this.props.authProvider} />
+    )
   }
 
   render() {
@@ -91,8 +88,9 @@ export class SocialAuthSignOut extends React.Component {
       .auth()
       .signOut()
       .then(() => {
-        // this.props.fetchUserData(null)
         console.log('signed out')
+        // executing the signOut function received as props from the parent component
+        this.props.onSignOut()
       })
       .catch((error) => {
         console.log(error)
@@ -102,8 +100,7 @@ export class SocialAuthSignOut extends React.Component {
   render() {
     return (
       <button style={this.props.style} onClick={this.SignOutHandler}>
-        {' '}
-        Sign Out{' '}
+        Sign Out
       </button>
     )
   }

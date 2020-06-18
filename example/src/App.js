@@ -18,7 +18,7 @@ const App = () => {
     return (
       <div>
         <h3> {user.displayName} </h3>
-        <SocialAuthSignOut onClick={onSignOut} />
+        <SocialAuthSignOut style={{ color: 'red' }} onSignOut={onSignOut} />
       </div>
     )
   }
