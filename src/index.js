@@ -63,13 +63,13 @@ export class SocialAuth extends React.Component {
     */
     if (typeof window !== 'undefined') {
       if (localStorage.getItem('initializer') === 'initializing') {
-        return <Spinner />
+        return <Spinner loaderImage={this.props.loaderImage} />
       }
     }
     /*
     The Auth component is rendered that provides the sign-in facility. 
-    style and authProvider props coming from the parent component is
-    passed down as props
+    style and authProvider props coming from the parent component are
+    passed down again as props
     */
     return (
       <Auth style={this.props.style} authProvider={this.props.authProvider} />

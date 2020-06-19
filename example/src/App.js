@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { SocialAuth, SocialAuthSignOut } from 'react-easy-auth'
-import 'react-easy-auth/dist/index.css'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -37,6 +36,7 @@ const App = () => {
           authProvider='Google'
           style={{ color: 'red', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
+          loaderImage='/refresh.png'
         />
         <SocialAuth
           authProvider='Facebook'
