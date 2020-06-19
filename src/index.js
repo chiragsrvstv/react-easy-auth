@@ -7,14 +7,15 @@ import Auth from './components/auth'
 import Spinner from './components/Spinner'
 
 export class SocialAuth extends React.Component {
+  state = { userCredentials: null }
   /* 
   a method that sets the userData state when a user signs-in and 
   it also sends that data back to the parent component with the help 
   of fetchUserData prop 
   */
-  authListener = (enteredUser) => {
-    if (enteredUser) {
-      this.props.fetchUserData(enteredUser)
+  authListener = (user) => {
+    if (user) {
+      this.props.fetchUserData(user, this.state.userCredentials)
     }
   }
 
@@ -22,7 +23,7 @@ export class SocialAuth extends React.Component {
   a method to get Back redirected result if the 
   user has requested a sign-in process
   */
-  getSigInResults = () => {
+  getSignInResults = () => {
     firebaseConfig
       .auth()
       .getRedirectResult()
@@ -30,11 +31,19 @@ export class SocialAuth extends React.Component {
         const user = result.user
         const token = result.credential.accessToken
         const secret = result.credential.secret
+        this.setState({ userCredentials: result })
         if (typeof window !== 'undefined') {
           localStorage.removeItem('initializer')
         }
       })
       .catch((error) => {
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          alert(
+            'You have already signed up with a different auth provider for that email.'
+          )
+          // If you are using multiple auth providers on your app you should handle linking
+          // the user's accounts here.
+        }
         console.error(error)
         if (typeof window !== 'undefined') {
           localStorage.removeItem('initializer')
@@ -49,8 +58,8 @@ export class SocialAuth extends React.Component {
 
   */
   componentDidMount() {
+    this.getSignInResults()
     firebaseConfig.auth().onAuthStateChanged(this.authListener)
-    this.getSigInResults()
   }
 
   /* 

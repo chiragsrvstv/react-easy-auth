@@ -5,8 +5,9 @@ import { SocialAuth, SocialAuthSignOut } from 'react-easy-auth'
 const App = () => {
   const [user, setUser] = useState(null)
 
-  const fetchUserData = (passedUser) => {
-    setUser(passedUser)
+  const fetchUserData = (userData, userCredentials) => {
+    console.log(userCredentials)
+    setUser(userData)
   }
 
   const onSignOut = () => {
@@ -14,6 +15,7 @@ const App = () => {
   }
 
   if (user) {
+    // console.log(user)
     return (
       <div>
         <h3> {user.displayName} </h3>
@@ -41,6 +43,11 @@ const App = () => {
         <SocialAuth
           authProvider='Facebook'
           style={{ color: 'blue', fontSize: '20px', borderRadius: '5px' }}
+          fetchUserData={fetchUserData}
+        />
+        <SocialAuth
+          authProvider='Microsoft'
+          style={{ color: 'cyan', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
         />
       </div>
