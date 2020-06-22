@@ -50,6 +50,7 @@ export class SocialAuth extends React.Component {
       <Auth
         style={this.props.style}
         authProvider={this.props.authProvider}
+        scopes={this.props.scopes}
         fetchUserCredentials={this.fetchUserCredentials}
       />
     )

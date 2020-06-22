@@ -6,7 +6,7 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   const fetchUserData = (userData, userCredentials) => {
-    console.log(userCredentials)
+    console.log(userData)
     setUser(userData)
   }
 
@@ -39,6 +39,7 @@ const App = () => {
           style={{ color: 'red', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
           loaderImage='/refresh.png'
+          scopes='https://www.googleapis.com/auth/androidpublisher'
         />
         <SocialAuth
           authProvider='Facebook'

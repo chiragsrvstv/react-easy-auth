@@ -3,7 +3,7 @@ import React from 'react'
 // importing firebase configuration and dependencies
 import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
-const auth = ({ authProvider, style, fetchUserCredentials }) => {
+const auth = ({ authProvider, style, fetchUserCredentials, scopes }) => {
   let provider
 
   /*
@@ -37,6 +37,7 @@ const auth = ({ authProvider, style, fetchUserCredentials }) => {
   method to handle sign-in functionality with firebase
   */
   const onSignIn = () => {
+    provider.addScope(scopes)
     firebaseConfig
       .auth()
       .signInWithPopup(provider)
