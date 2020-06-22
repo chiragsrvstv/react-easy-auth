@@ -6,7 +6,7 @@ import { firebaseConfig } from './firebaseConfig'
 import Auth from './components/auth'
 
 export class SocialAuth extends React.Component {
-  state = { userCredentials: null }
+  state = { userCredentials: null, error: null }
   /* 
   a method that sets the userData state when a user signs-in and 
   it also sends that data back to the parent component with the help 
@@ -14,16 +14,22 @@ export class SocialAuth extends React.Component {
   */
   authListener = (user) => {
     if (user) {
-      console.log(user)
-      this.props.fetchUserData(user, this.state.userCredentials)
+      this.props.fetchUserData(user, this.state.userCredentials, null)
     }
   }
 
   /* 
     a method to fetch user credentials(after successful sign-in) from auth component 
   */
-  fetchUserCredentials = (credentials) => {
-    this.setState({ userCredentials: credentials })
+  fetchAuthData = (credentials, error) => {
+    this.setState({ userCredentials: credentials, error: error })
+    if (error) {
+      this.props.fetchUserData(
+        this.state.user,
+        this.state.userCredentials,
+        error
+      )
+    }
   }
 
   /* 
@@ -51,7 +57,7 @@ export class SocialAuth extends React.Component {
         style={this.props.style}
         authProvider={this.props.authProvider}
         scopes={this.props.scopes}
-        fetchUserCredentials={this.fetchUserCredentials}
+        fetchAuthData={this.fetchAuthData}
       />
     )
   }

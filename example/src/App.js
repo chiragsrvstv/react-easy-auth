@@ -5,8 +5,8 @@ import { SocialAuth, SocialAuthSignOut } from 'react-easy-auth'
 const App = () => {
   const [user, setUser] = useState(null)
 
-  const fetchUserData = (userData, userCredentials) => {
-    console.log(userData)
+  const fetchUserData = (userData, userCredentials, error) => {
+    console.error(error)
     setUser(userData)
   }
 
@@ -38,7 +38,6 @@ const App = () => {
           authProvider='Google'
           style={{ color: 'red', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
-          loaderImage='/refresh.png'
           scopes='https://www.googleapis.com/auth/androidpublisher'
         />
         <SocialAuth

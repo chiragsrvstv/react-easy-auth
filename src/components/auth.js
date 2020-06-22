@@ -3,7 +3,7 @@ import React from 'react'
 // importing firebase configuration and dependencies
 import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
-const auth = ({ authProvider, style, fetchUserCredentials, scopes }) => {
+const auth = ({ authProvider, style, fetchAuthData, scopes }) => {
   let provider
 
   /*
@@ -42,13 +42,11 @@ const auth = ({ authProvider, style, fetchUserCredentials, scopes }) => {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        const credential = result.credential
-        const user = result.user
-        fetchUserCredentials(user)
+        fetchAuthData(result, null)
       })
       .catch((error) => {
-        console.error(error)
         if (error.code === 'auth/account-exists-with-different-credential') {
+          fetchAuthData(null, error)
           if (typeof window !== 'undefined') {
             alert(
               'An account already exists with the same email address. You have already signed up with a different auth provider for that email.'
