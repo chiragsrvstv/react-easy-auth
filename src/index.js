@@ -4,10 +4,9 @@ import React from 'react'
 import { firebaseConfig } from './firebaseConfig'
 
 import Auth from './components/auth'
-import Spinner from './components/Spinner'
 
 export class SocialAuth extends React.Component {
-  state = { userCredentials: null, error: false }
+  state = { userCredentials: null }
   /* 
   a method that sets the userData state when a user signs-in and 
   it also sends that data back to the parent component with the help 
@@ -16,8 +15,15 @@ export class SocialAuth extends React.Component {
   authListener = (user) => {
     if (user) {
       console.log(user)
-      this.props.fetchUserData(user, 'this.state.userCredentials')
+      this.props.fetchUserData(user, this.state.userCredentials)
     }
+  }
+
+  /* 
+    a method to fetch user credentials(after successful sign-in) from auth component 
+  */
+  fetchUserCredentials = (credentials) => {
+    this.setState({ userCredentials: credentials })
   }
 
   /* 
@@ -34,15 +40,6 @@ export class SocialAuth extends React.Component {
   a method to show content on screen
   */
   renderContent() {
-    /* 
-    if localstorage doesn't contain initializing variable,
-    the Spinner component is rendered     
-    */
-    if (typeof window !== 'undefined') {
-      if (localStorage.getItem('initializer') === 'initializing') {
-        return <Spinner loaderImage={this.props.loaderImage} />
-      }
-    }
     /*
     The Auth component is rendered that provides the sign-in facility. 
     style and authProvider props coming from the parent component are
@@ -50,7 +47,11 @@ export class SocialAuth extends React.Component {
     */
 
     return (
-      <Auth style={this.props.style} authProvider={this.props.authProvider} />
+      <Auth
+        style={this.props.style}
+        authProvider={this.props.authProvider}
+        fetchUserCredentials={this.fetchUserCredentials}
+      />
     )
   }
 

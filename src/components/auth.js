@@ -3,7 +3,7 @@ import React from 'react'
 // importing firebase configuration and dependencies
 import { firebaseConfig, firebaseConfigAuth } from '../firebaseConfig'
 
-const auth = ({ authProvider, style }) => {
+const auth = ({ authProvider, style, fetchUserCredentials }) => {
   let provider
 
   /*
@@ -37,16 +37,24 @@ const auth = ({ authProvider, style }) => {
   method to handle sign-in functionality with firebase
   */
   const onSignIn = () => {
-    try {
-      firebaseConfig.auth().signInWithRedirect(provider)
-    } catch (error) {
-      console.log(error)
-    }
-    if (typeof window !== 'undefined') {
-      /* adding a loader variable to localstorage which lets
-      us know if the authentication is still in process */
-      localStorage.setItem('initializer', 'initializing')
-    }
+    firebaseConfig
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        const credential = result.credential
+        const user = result.user
+        fetchUserCredentials(user)
+      })
+      .catch((error) => {
+        console.error(error)
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          if (typeof window !== 'undefined') {
+            alert(
+              'An account already exists with the same email address. You have already signed up with a different auth provider for that email.'
+            )
+          }
+        }
+      })
   }
 
   return (
