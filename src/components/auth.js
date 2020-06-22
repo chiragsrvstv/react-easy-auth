@@ -37,7 +37,7 @@ const auth = ({ authProvider, style, fetchUserCredentials, scopes }) => {
   method to handle sign-in functionality with firebase
   */
   const onSignIn = () => {
-    provider.addScope(scopes)
+    provider = scopes ? provider.addScope(scopes) : provider
     firebaseConfig
       .auth()
       .signInWithPopup(provider)
