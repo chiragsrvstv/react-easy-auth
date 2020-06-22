@@ -7,7 +7,7 @@ import Auth from './components/auth'
 import Spinner from './components/Spinner'
 
 export class SocialAuth extends React.Component {
-  state = { userCredentials: null }
+  state = { userCredentials: null, error: false }
   /* 
   a method that sets the userData state when a user signs-in and 
   it also sends that data back to the parent component with the help 
@@ -15,40 +15,9 @@ export class SocialAuth extends React.Component {
   */
   authListener = (user) => {
     if (user) {
-      this.props.fetchUserData(user, this.state.userCredentials)
+      console.log(user)
+      this.props.fetchUserData(user, 'this.state.userCredentials')
     }
-  }
-
-  /*
-  a method to get Back redirected result if the 
-  user has requested a sign-in process
-  */
-  getSignInResults = () => {
-    firebaseConfig
-      .auth()
-      .getRedirectResult()
-      .then((result) => {
-        const user = result.user
-        const token = result.credential.accessToken
-        const secret = result.credential.secret
-        this.setState({ userCredentials: result })
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('initializer')
-        }
-      })
-      .catch((error) => {
-        if (error.code === 'auth/account-exists-with-different-credential') {
-          alert(
-            'You have already signed up with a different auth provider for that email.'
-          )
-          // If you are using multiple auth providers on your app you should handle linking
-          // the user's accounts here.
-        }
-        console.error(error)
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('initializer')
-        }
-      })
   }
 
   /* 
@@ -58,7 +27,6 @@ export class SocialAuth extends React.Component {
 
   */
   componentDidMount() {
-    this.getSignInResults()
     firebaseConfig.auth().onAuthStateChanged(this.authListener)
   }
 
@@ -80,6 +48,7 @@ export class SocialAuth extends React.Component {
     style and authProvider props coming from the parent component are
     passed down again as props
     */
+
     return (
       <Auth style={this.props.style} authProvider={this.props.authProvider} />
     )
