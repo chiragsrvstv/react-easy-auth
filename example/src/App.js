@@ -6,16 +6,20 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   const fetchUserData = (userData, userCredentials, error) => {
-    console.error(error)
+    if (error) {
+      console.error(error)
+    }
     setUser(userData)
   }
 
-  const onSignOut = () => {
-    setUser(null)
+  const onSignOut = (error) => {
+    if (!error) {
+      console.log('signed out')
+      setUser(null)
+    }
   }
 
   if (user) {
-    // console.log(user)
     return (
       <div>
         <h3> {user.displayName} </h3>

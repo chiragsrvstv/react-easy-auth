@@ -62,12 +62,10 @@ export class SocialAuthSignOut extends React.Component {
       .auth()
       .signOut()
       .then(() => {
-        console.log('signed out')
-        // executing the signOut function received as props from the parent component
-        this.props.onSignOut()
+        this.props.onSignOut(null)
       })
       .catch((error) => {
-        console.log(error)
+        this.props.onSignOut(error)
       })
   }
 
