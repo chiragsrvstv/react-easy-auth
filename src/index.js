@@ -7,51 +7,43 @@ import Auth from './components/auth'
 
 export class SocialAuth extends React.Component {
   state = { userCredentials: null, error: null }
-  /* 
+
+  authListener = (user) => {
+    /* 
   a method that sets the userData state when a user signs-in and 
   it also sends that data back to the parent component with the help 
   of fetchUserData prop 
   */
-  authListener = (user) => {
     if (user) {
       this.props.fetchUserData(user, this.state.userCredentials, null)
     }
   }
 
-  /* 
-    a method to fetch user credentials(after successful sign-in) from auth component 
-  */
   fetchAuthData = (credentials, error) => {
-    this.setState({ userCredentials: credentials, error: error })
+    /* 
+    a method to fetch user credentials(after successful sign-in) 
+    from auth component 
+  */
     if (error) {
-      this.props.fetchUserData(
-        this.state.user,
-        this.state.userCredentials,
-        error
-      )
+      this.props.fetchUserData(null, null, error)
     }
+    this.setState({ userCredentials: credentials, error: error })
   }
 
-  /* 
+  componentDidMount() {
+    /* 
     activating the firebase authentication state observer, it listens 
     for changes in the authentication state and executes the function(or observer)
     passed to it everytime the authentication state changes 
-
   */
-  componentDidMount() {
     firebaseConfig.auth().onAuthStateChanged(this.authListener)
   }
 
-  /* 
-  a method to show content on screen
-  */
-  renderContent() {
+  render() {
     /*
     The Auth component is rendered that provides the sign-in facility. 
-    style and authProvider props coming from the parent component are
-    passed down again as props
+    Props coming down from the parent are passed to the Auth component.
     */
-
     return (
       <Auth
         style={this.props.style}
@@ -61,15 +53,11 @@ export class SocialAuth extends React.Component {
       />
     )
   }
-
-  render() {
-    return <div>{this.renderContent()}</div>
-  }
 }
 
 export class SocialAuthSignOut extends React.Component {
-  // a method to sign users out
   SignOutHandler = () => {
+    // a method to sign users out
     firebaseConfig
       .auth()
       .signOut()

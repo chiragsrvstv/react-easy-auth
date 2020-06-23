@@ -46,13 +46,13 @@ const auth = ({ authProvider, style, fetchAuthData, scopes }) => {
       })
       .catch((error) => {
         if (error.code === 'auth/account-exists-with-different-credential') {
-          fetchAuthData(null, error)
           if (typeof window !== 'undefined') {
             alert(
               'An account already exists with the same email address. You have already signed up with a different auth provider for that email.'
             )
           }
         }
+        fetchAuthData(null, error)
       })
   }
 
