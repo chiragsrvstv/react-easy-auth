@@ -10,10 +10,11 @@ const App = () => {
     if (error) {
       console.error(error)
     }
+    console.log(userCredentials)
     setUser(userData)
   }
 
-  // a method to handle user sign-out// 
+  // a method to handle user sign-out//
   const onSignOut = (error) => {
     if (!error) {
       console.log('signed out')
@@ -42,9 +43,18 @@ const App = () => {
         />
         <SocialSignIn
           authProvider='Google'
-          style={{ color: 'red', fontSize: '20px', borderRadius: '5px' }}
+          style={{
+            color: 'white',
+            backgroundColor: 'red',
+            fontSize: '20px',
+            borderRadius: '5px'
+          }}
+          scopes={[
+            'https://www.googleapis.com/auth/androidpublisher',
+            'https://www.googleapis.com/auth/games'
+          ]}
           fetchUserData={fetchUserData}
-          scopes='https://www.googleapis.com/auth/androidpublisher'
+          
         />
         <SocialSignIn
           authProvider='Facebook'
