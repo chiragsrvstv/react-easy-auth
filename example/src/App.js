@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 
-import { SocialAuth, SocialAuthSignOut } from 'react-easy-auth'
+import { SocialSignIn, SocialSignOut } from 'react-easy-auth'
 
 const App = () => {
   const [user, setUser] = useState(null)
 
+  //a method to fetch the data after user signs-in
   const fetchUserData = (userData, userCredentials, error) => {
     if (error) {
       console.error(error)
@@ -12,6 +13,7 @@ const App = () => {
     setUser(userData)
   }
 
+  // a method to handle user sign-out// 
   const onSignOut = (error) => {
     if (!error) {
       console.log('signed out')
@@ -23,7 +25,7 @@ const App = () => {
     return (
       <div>
         <h3> {user.displayName} </h3>
-        <SocialAuthSignOut style={{ color: 'red' }} onSignOut={onSignOut} />
+        <SocialSignOut style={{ color: 'red' }} onSignOut={onSignOut} />
       </div>
     )
   }
@@ -33,23 +35,23 @@ const App = () => {
       <h1> Super Power App </h1>
       <div>
         Social Login
-        <SocialAuth
+        <SocialSignIn
           authProvider='Twitter'
           style={{ color: 'green', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
         />
-        <SocialAuth
+        <SocialSignIn
           authProvider='Google'
           style={{ color: 'red', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
           scopes='https://www.googleapis.com/auth/androidpublisher'
         />
-        <SocialAuth
+        <SocialSignIn
           authProvider='Facebook'
           style={{ color: 'blue', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}
         />
-        <SocialAuth
+        <SocialSignIn
           authProvider='Microsoft'
           style={{ color: 'cyan', fontSize: '20px', borderRadius: '5px' }}
           fetchUserData={fetchUserData}

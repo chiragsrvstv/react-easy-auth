@@ -5,7 +5,7 @@ import { firebaseConfig } from './firebaseConfig'
 
 import Auth from './components/auth'
 
-export class SocialAuth extends React.Component {
+export class SocialSignIn extends React.Component {
   state = { userCredentials: null, error: null }
 
   authListener = (user) => {
@@ -55,7 +55,7 @@ export class SocialAuth extends React.Component {
   }
 }
 
-export class SocialAuthSignOut extends React.Component {
+export class SocialSignOut extends React.Component {
   SignOutHandler = () => {
     // a method to sign users out
     firebaseConfig
