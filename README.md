@@ -1,4 +1,4 @@
-# react-easy-auth(In progress..)
+# react-easy-auth
 
 > A React component that easily adds social authentication with firebase to your projects.
 
