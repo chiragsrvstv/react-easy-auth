@@ -76,7 +76,7 @@ export const App = () => {
 
 ### SocialSignIn
 
-#### `authProvider()`
+#### `authProvider`
 | Type           | Required     |  
 | :------------- | :----------: | 
 |  string        | Yes          |
