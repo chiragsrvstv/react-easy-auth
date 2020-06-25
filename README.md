@@ -4,6 +4,8 @@
 
 [![NPM](https://img.shields.io/npm/v/react-easy-auth.svg)](https://www.npmjs.com/package/react-easy-auth) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+![showcase video](https://media.giphy.com/media/JpMiCUdQCchhSA3dt5/giphy.gif)
+
 ## Install
 
 ```bash
