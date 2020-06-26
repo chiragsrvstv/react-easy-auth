@@ -143,6 +143,10 @@ styling to the button to give it a custom appeal.<br />
 <br />
 
 
+## Contributing
+See contributing guidlines [here](CONTRIBUTING.md)
+
+
 ## License
 
 MIT © [chiragsrvstv](https://github.com/chiragsrvstv)
