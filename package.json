@@ -50,8 +50,11 @@
   "keywords": [
     "react",
     "firebase",
-    "authentication",
-    "auth"
+    "react firebase",
+    "firebase auth",
+    "react auth",
+    "react firebase auth",
+    "authentication"
   ],
   "files": [
     "dist"
