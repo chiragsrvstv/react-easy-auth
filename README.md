@@ -11,6 +11,8 @@
 ```bash
 npm install --save react-easy-auth
 ```
+## Example
+Try it out [here](https://chiragsrvstv.github.io/react-easy-auth/)
 
 ## Configuration
 1. Use an existing firebase project or create a new one. Then enable your preferred sign-in method from the firebase console.<br />
