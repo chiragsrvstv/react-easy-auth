@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { SocialSignIn, SocialSignOut } from 'react-easy-auth'
 
+import './index.css'
+
 const App = () => {
   const [user, setUser] = useState(null)
 
@@ -24,23 +26,19 @@ const App = () => {
 
   if (user) {
     return (
-      <div>
-        <h3> {user.displayName} </h3>
-        <SocialSignOut style={{ color: 'red' }} onSignOut={onSignOut} />
+      <div className="container">
+        <h3 className="title"> {user.displayName} </h3>
+        <div class="button">
+          <SocialSignOut style={{ color: 'red', fontSize: '10px'}} onSignOut={onSignOut} />
+        </div>
       </div>
     )
   }
 
   return (
-    <div>
-      <h1> Super Power App </h1>
-      <div>
-        Social Login
-        <SocialSignIn
-          authProvider='Twitter'
-          style={{ color: 'green', fontSize: '20px', borderRadius: '5px' }}
-          fetchUserData={fetchUserData}
-        />
+    <div className="container">
+      <h1 className="title"> Super Power App </h1>
+      <div className="button">
         <SocialSignIn
           authProvider='Google'
           style={{
@@ -53,18 +51,7 @@ const App = () => {
             'https://www.googleapis.com/auth/androidpublisher',
             'https://www.googleapis.com/auth/games'
           ]}
-          fetchUserData={fetchUserData}
-          
-        />
-        <SocialSignIn
-          authProvider='Facebook'
-          style={{ color: 'blue', fontSize: '20px', borderRadius: '5px' }}
-          fetchUserData={fetchUserData}
-        />
-        <SocialSignIn
-          authProvider='Microsoft'
-          style={{ color: 'cyan', fontSize: '20px', borderRadius: '5px' }}
-          fetchUserData={fetchUserData}
+          fetchUserData={fetchUserData}   
         />
       </div>
     </div>
