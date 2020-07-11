@@ -1,6 +1,6 @@
 {
   "name": "react-easy-auth",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Easily add authentication with firebase to your React application.",
   "author": "chiragsrvstv",
   "license": "MIT",
